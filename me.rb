@@ -53,12 +53,11 @@ dep 'fish' do
 end
 
 src 'fish installed' do
-  requires 'ncurses', 'coreutils', 'gettext'
+  requires 'ncurses', 'coreutils'
   source "git://github.com/benhoskings/fish.git"
   provides 'fish'
 end
 
-pkg 'gettext'
 pkg 'ncurses' do
   installs {
     via :apt, 'libncurses5-dev', 'libncursesw5-dev'
