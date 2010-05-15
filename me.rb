@@ -38,10 +38,10 @@ dep 'private key' do
 end
 
 dep 'dot files' do
-  requires 'git', 'curl'
+  requires 'private key'
   met? { File.exists?(ENV['HOME'] / ".dotfiles/.git") }
   meet {
-    shell %Q{git clone git://github.com/#{var :github_user, :default => 'xaviershay'}/#{var :dot_files_repo, :default => 'dotfiles'}.git ~/.dotfiles}
+    shell %Q{git clone git@github.com/#{var :github_user, :default => 'xaviershay'}/#{var :dot_files_repo, :default => 'dotfiles'}.git ~/.dotfiles}
     shell %Q{cd ~/.dotfiles && ./install}
   }
 end
@@ -56,4 +56,21 @@ src 'fish installed' do
   requires 'ncurses', 'coreutils', 'gettext'
   source "git://github.com/benhoskings/fish.git"
   provides 'fish'
+end
+
+pkg 'gettext'
+pkg 'ncurses' do
+  installs {
+    via :apt, 'libncurses5-dev', 'libncursesw5-dev'
+    via :macports, 'ncurses', 'ncursesw'
+  }
+  provides []
+end
+pkg 'coreutils', :for => :osx do
+  provides 'gecho'
+  after :on => :osx do
+    in_dir pkg_manager.bin_path do
+      sudo "ln -s gecho echo"
+    end
+  end
 end
