@@ -4,16 +4,22 @@ dep 'the whole damn lot' do
   requires(
     'private key',
     'user shell setup',
-    'colemak'
+    'colemak',
+    'MacVim.app'
   )
+end
+
+app 'MacVim.app' do
+  source 'http://macvim.googlecode.com/files/MacVim-snapshot-52.tbz'
 end
 
 dep 'colemak' do
   requires 'KeyRemap4MacBook'
 end
 
-app 'KeyRemap4MacBook' do
+installer 'KeyRemap4MacBook' do
   source 'http://pqrs.org/macosx/keyremap4macbook/files/KeyRemap4MacBook-6.7.0.pkg.zip'
+  met? { File.exists?('/Library/PreferencePanes/KeyRemap4MacBook.prefPane') }
 end
 
 dep 'user shell setup' do
