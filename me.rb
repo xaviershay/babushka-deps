@@ -47,6 +47,16 @@ dep 'dot files' do
 end
 
 dep 'fish' do
+  requires 'fish default shell'
+end
+
+dep 'fish default shell' do
+  requires 'fish shell'
+  met? { shell("dscl . -read /Users/#{var(:username)} UserShell").split(' ').last == which('fish') }
+  meet { shell "chsh -s #{which('fish')}" }
+end
+
+dep 'fish shell' do
   requires 'fish installed'
   met? { grep which('fish'), '/etc/shells' }
   meet { append_to_file which('fish'), '/etc/shells', :sudo => true }
