@@ -52,7 +52,7 @@ end
 
 dep 'fish default shell' do
   requires 'fish shell'
-  met? { shell("dscl . -read /Users/#{var(:username)} UserShell").split(' ').last == which('fish') }
+  met? { shell("dscl . -read /Users/`whoami` UserShell").split(' ').last == which('fish') }
   meet { shell "chsh -s #{which('fish')}" }
 end
 
