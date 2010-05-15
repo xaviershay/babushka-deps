@@ -2,8 +2,9 @@
 
 dep 'the whole damn lot' do
   requires(
-    'colemak',
-    'user shell setup'
+    'private key',
+    'user shell setup',
+    'colemak'
   )
 end
 
@@ -21,6 +22,14 @@ dep 'user shell setup' do
   meet { sudo "chsh -s #{shell('which fish')} #{var(:username)}" }
 end
 
+
+dep 'private key' do
+  met? { File.exists?(ENV['HOME'] / ".ssh/id_rsa") }
+  meet {
+    shell %Q{mkdir -p ~/.ssh}
+    shell %Q{scp #{var :old_machine}:.ssh/id_rsa .ssh/id_rsa}
+  }
+end
 
 dep 'dot files' do
   requires 'git', 'curl'
