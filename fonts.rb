@@ -12,6 +12,6 @@ dep 'inconsolata' do
     File.exists?(destination)
   }
   meet {
-    shell "cp #{source} #{destination}" }
+    shell "cp #{source} #{destination}"
   }
 end
