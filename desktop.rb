@@ -8,8 +8,20 @@ end
 dep 'desktop background set' do
   requires 'desktop background copied'
 
-  met? { false }
+  helper(:dest) { '~/Pictures/background.jpg'.p.expand_path }
+
+  # Bit dodge
+  met? {
+    out = shell('defaults read com.apple.desktop Background')
+    if out
+      lines = out.lines.select {|x| x =~ /ImageFilePath/ }
+      if lines
+        lines.any? {|x| x =~ /#{Regexp.escape(dest)}/ }
+      end
+    end
+  }
   meet {
-    shell %Q{defaults write com.apple.desktop Background '{default = {ImageFilePath = "#{'~/Pictures/background.jpg'.p.expand_path}"; Placement = "Tiled";};}}
+    shell %Q{defaults write com.apple.desktop Background '{default = {ImageFilePath = "#{dest}"; Placement = "Tiled";};}'}
+    shell "killall Dock"
   }
 end
