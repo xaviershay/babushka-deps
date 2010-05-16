@@ -6,7 +6,8 @@ dep 'the whole damn lot' do
     'user shell setup',
     'colemak',
     'MacVim.app',
-    'fonts'
+    'fonts',
+    'desktop background set'
   )
 end
 
