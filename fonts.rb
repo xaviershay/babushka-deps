@@ -2,16 +2,16 @@ dep 'fonts' do
   requires 'inconsolata'
 end
 
-dep 'inconsolata' do
-  source 'http://www.levien.com/type/myfonts/Inconsolata.otf'
+meta :font do
+  accepts_list_for :source
 
-  helper(:name)        { File.basename(source.first.name.to_s) }
-  helper(:source)      { Babushka::SrcPrefix / name }
-  helper(:destination) { "~/Library/Fonts/#{name}".p.expand_path }
-  met? {
-    File.exists?(destination)
-  }
-  meet {
-    shell "cp #{source} #{destination}"
-  }
+  template do
+    helper(:name) { File.basename(src.name.to_s) }
+    helper(:src)  { source.first }
+    helper(:dest) { "~/Library/Fonts/#{name}".p.expand_path }
+    met? { File.exists?(dest) }
+    meet { shell "curl #{src} > #{dest}" }
+  end
 end
+
+font('inconsolata') { source 'http://www.levien.com/type/myfonts/Inconsolata.otf' }
