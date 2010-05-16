@@ -5,6 +5,6 @@ dep 'music copied' do
   meet {
     dest = var(:scp_source)
 
-    shell %Q{rsync -vrz "#{dest}/" ~/Music}
+    log_shell "Copying music (might take a while)", %Q{rsync -vrz "#{dest}/" ~/Music}
   }
 end
