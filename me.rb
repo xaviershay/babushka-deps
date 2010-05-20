@@ -4,15 +4,22 @@ dep 'the whole damn lot' do
   requires(
     'private key',
     'user shell setup',
-    'colemak',
-    'MacVim.app',
+    #'colemak',
     'fonts',
-    'desktop background set'
-  )
-end
+    'desktop background set',
 
-app 'MacVim.app' do
-  source 'http://macvim.googlecode.com/files/MacVim-snapshot-52.tbz'
+    #'Garmin ANT Agent.app',
+    'MacVim.app',
+    'Chromium.app',
+    #'Thunderbird.app',
+    'Skype.app',
+    'Gnucash.app',
+
+    'music copied',
+    'documents copied',
+    'pictures copied',
+    'git repos cloned'
+  )
 end
 
 dep 'colemak' do
