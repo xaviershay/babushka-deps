@@ -2,7 +2,7 @@
 
 dep 'the whole damn lot' do
   requires(
-    'private key',
+    'ssh key',
     'user shell setup',
     #'colemak',
     'fonts',
@@ -14,6 +14,9 @@ dep 'the whole damn lot' do
     #'Thunderbird.app',
     'Skype.app',
     'Gnucash.app',
+    'Alfred.app',
+    'Growl.app',
+    'Dropbox.app',
 
     'music copied',
     'documents copied',
@@ -38,11 +41,24 @@ dep 'user shell setup' do
 end
 
 
-dep 'private key' do
-  met? { File.exists?(ENV['HOME'] / ".ssh/id_rsa") }
+dep 'ssh keys' do
+  met? {
+    File.exists?(ENV['HOME'] / ".ssh/id_rsa") &&
+    File.exists?(ENV['HOME'] / ".ssh/id_rsa.pub")
+  }
   meet {
     shell %Q{mkdir -p ~/.ssh}
-    shell %Q{scp #{var :old_machine}:.ssh/id_rsa .ssh/id_rsa}
+    shell %Q{scp #{var :old_machine}:~/.ssh/id_rsa* ~/.ssh/}
+  }
+end
+
+dep 'things' do
+  helper(:path) { %Q{~/Library/Application Support/Cultured Code/Things/database.xml} }
+
+  met? { File.exist?(path.p.expand_path.to_s) }
+  meet {
+    shell %Q{mkdir -p "#{File.dirname(path)}"}
+    shell %Q{scp #{var :old_machine}:"#{path.gsub(' ', '\\\\\\ ')}" #{path.gsub(' ', '\\\\ ')}}
   }
 end
 

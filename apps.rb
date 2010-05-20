@@ -41,3 +41,15 @@ end
 app 'Alfred.app' do
   source 'http://media.alfredapp.com/alfred_0.6.2_beta_23.dmg'
 end
+
+app 'Growl.app' do
+  source 'http://growl.cachefly.net/Growl-1.2.dmg'
+end
+
+app 'Dropbox.app' do
+  source 'https://www.dropbox.com/download?plat=mac'
+end
+
+app 'Things.app' do
+  source 'http://culturedcode.com/things/download/?e=3102'
+end

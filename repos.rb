@@ -3,6 +3,7 @@ mine = %w(
   sites
   thehunge
   geeksheets
+  two-shay
 )
 
 os = %w(
