@@ -16,7 +16,7 @@ dep 'the whole damn lot' do
     'Gnucash.app',
     'Alfred.app',
     'Growl.app',
-    'Dropbox.app',
+#    'Dropbox.app',
 
     'music copied',
     'documents copied',
