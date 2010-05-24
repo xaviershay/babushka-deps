@@ -29,7 +29,8 @@ os = %w(
 
 dep 'git repos cloned' do
   requires(*(mine + os + [
-    'money'
+    'money',
+    'db-is-your-friend'
   ]))
 end
 
@@ -38,6 +39,38 @@ dep 'money' do
   meet {
     shell %Q{mkdir -p ~/Code/me}
     shell %Q{git clone ssh://rhnh.net/~/repos/money ~/Code/me/money}
+  }
+end
+
+dep 'db-is-your-friend' do
+  requires(
+    'db-is-your-friend website',
+    'db-is-your-friend presentation',
+    'db-is-your-friend bookstore'
+  )
+end
+
+dep 'db-is-your-friend website' do
+  met? { File.exists?(File.expand_path("~/Code/me/db-is-your-friend/website/.git")) }
+  meet {
+    shell %Q{mkdir -p ~/Code/me}
+    shell %Q{git clone ssh://rhnh.net/~/repos/db-is-your-friend/website.git ~/Code/me/db-is-your-friend/website}
+  }
+end
+
+dep 'db-is-your-friend presentation' do
+  met? { File.exists?(File.expand_path("~/Code/me/db-is-your-friend/presentation/.git")) }
+  meet {
+    shell %Q{mkdir -p ~/Code/me}
+    shell %Q{git clone ssh://rhnh.net/~/repos/db-is-your-friend/presentation.git ~/Code/me/db-is-your-friend/presentation}
+  }
+end
+
+dep 'db-is-your-friend bookstore' do
+  met? { File.exists?(File.expand_path("~/Code/me/db-is-your-friend/bookstore/.git")) }
+  meet {
+    shell %Q{mkdir -p ~/Code/me}
+    shell %Q{git clone ssh://rhnh.net/~/repos/db-is-your-friend/bookstore.git ~/Code/me/db-is-your-friend/bookstore}
   }
 end
 

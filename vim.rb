@@ -85,3 +85,11 @@ def pathogen_plugin(name)
   end
 end
 pathogen_plugin "vim-surround"
+pathogen_plugin "vim-haml"
+
+dep 'vim env' do
+  requires(
+    'vim-surround installed',
+    'vim-haml installed'
+  )
+end

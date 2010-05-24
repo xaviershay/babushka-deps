@@ -53,3 +53,9 @@ end
 app 'Things.app' do
   source 'http://culturedcode.com/things/download/?e=3102'
 end
+
+pkg 'tig'
+
+app 'Skitch.app' do
+  source 'http://get.skitch.com/skitch-beta.dmg'
+end

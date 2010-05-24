@@ -8,3 +8,4 @@ dep 'rubygems' do
 end
 
 pkg 'coffee-script'
+pkg 'mysql'
