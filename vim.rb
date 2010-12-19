@@ -5,91 +5,53 @@ dep "vim-pathogen installed" do
   end
 
   meet do
-    url = "http://github.com/tpope/vim-pathogen/raw/master/autoload/pathogen.vim"
+    url = "https://github.com/tpope/vim-pathogen/raw/master/autoload/pathogen.vim"
     dest = "~/.vim/autoload"
     shell "mkdir -p #{dest}"
-    shell "curl #{url} > #{dest}/pathogen.vim"
+    shell "curl -L #{url} > #{dest}/pathogen.vim"
   end
 end
 
-meta :pathogen_plugin_source do
+meta :pathogen do
   accepts_list_for :source
 
   template do
-    prepare {setup_source_uris}
-
-    helper(:git_current?) {
-      shell("git rev-list ..origin/master").lines.to_a.empty?
+    helper(:path) {
+      "~/.vim/bundle" / name
     }
 
     met? {
-      current_source = source.first
-      path = Babushka::SrcPrefix / File.basename(current_source.name.to_s)
-      if !git_repo?(path)
-        unmet "#{path} is not a git repo"
-      else
-        in_dir(path) do
-          if git_current?
-            true
-          else
-            unmet "Git is not up to date"
-          end
-        end
-      end
+      path.dir?
+#       && in_dir(path) do
+#         if git_current?
+#           true
+#         else
+#           unmet "Git is not up to date"
+#         end
+#       end
     }
 
+    before { shell "mkdir -p #{path.parent}" }
     meet {
-      process_sources do |path|
-        in_dir(path) do
-          if !shell("git fetch")
-            fail_because("Couldn't pull the latest code - check your internet connection.")
-          end
-        end
-      end
+      source.each {|uri|
+        git uri, :dir => path
+      }
     }
   end
 end
 
-meta :pathogen_link_exists do
-  accepts_list_for :source
-
-  template do
-    helper(:name)             { File.basename(source.first.name.to_s) }
-    helper(:link_source)      { Babushka::SrcPrefix / name }
-    helper(:link_destination) { "~/.vim/bundle/#{name}".p.expand_path }
-
-    met? {
-      if !File.exists?(link_destination)
-        unmet "link does not exist"
-      elsif link_destination.realpath != link_source
-        unmet "link exists, but points to #{link_destination.realpath} instead of #{link_source}"
-      else
-        true
-      end
-    }
-
-    meet {
-      shell "mkdir -p #{link_destination.dirname}"
-      shell "ln -fs #{link_source} #{link_destination}"
-    }
-  end
+vim_plugins = %w(
+ tpope-vim-surround
+ tpope-vim-haml
+ tpope-vim-rails
+ kchmck-vim-coffee-script
+ shemerey-vim-peepopen
+).each do |name|
+  dep("#{name}.pathogen") { 
+    source("git://github.com/#{name.sub('-', '/')}.git")
+  }
 end
-
-def pathogen_plugin(name)
-  git_repo = "git://github.com/tpope/#{name}.git"
-  dep("#{name} source cloned.pathogen_plugin_source") { source(git_repo) }
-  dep("#{name} link exists.pathogen_link_exists") { source(git_repo) }
-
-  dep "#{name} installed" do
-    requires "vim-pathogen installed", "#{name} source cloned", "#{name} link exists"
-  end
-end
-pathogen_plugin "vim-surround"
-pathogen_plugin "vim-haml"
 
 dep 'vim env' do
-  requires(
-    'vim-surround installed',
-    'vim-haml installed'
-  )
+  requires *vim_plugins.map {|x| "#{x}.pathogen" }
 end
