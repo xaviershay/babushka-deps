@@ -17,7 +17,7 @@ end
   "Startup Window Settings",
   "Default Window Settings"
 ].each do |setting|
-  plist_default("Terminal #{setting}") {
+  dep("Terminal #{setting}.plist_default") {
     domain 'com.apple.Terminal'
     key    setting
     value 'Novel'

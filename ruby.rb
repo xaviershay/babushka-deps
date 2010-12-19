@@ -7,5 +7,5 @@ dep 'rubygems' do
   }
 end
 
-pkg 'coffee-script'
-pkg 'mysql'
+dep 'coffee-script.managed'
+dep 'mysql.managed'

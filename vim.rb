@@ -77,8 +77,8 @@ end
 
 def pathogen_plugin(name)
   git_repo = "git://github.com/tpope/#{name}.git"
-  pathogen_plugin_source("#{name} source cloned") { source(git_repo) }
-  pathogen_link_exists("#{name} link exists") { source(git_repo) }
+  dep("#{name} source cloned.pathogen_plugin_source") { source(git_repo) }
+  dep("#{name} link exists.pathogen_link_exists") { source(git_repo) }
 
   dep "#{name} installed" do
     requires "vim-pathogen installed", "#{name} source cloned", "#{name} link exists"

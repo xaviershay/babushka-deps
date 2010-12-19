@@ -29,15 +29,15 @@ dep 'colemak' do
   requires 'KeyRemap4MacBook'
 end
 
-installer 'KeyRemap4MacBook' do
+dep 'KeyRemap4MacBook.installer' do
   source 'http://pqrs.org/macosx/keyremap4macbook/files/KeyRemap4MacBook-6.7.0.pkg.zip'
   met? { File.exists?('/Library/PreferencePanes/KeyRemap4MacBook.prefPane') }
 end
 
 dep 'user shell setup' do
-  requires 'fish', 'dot files'
-  met? { File.basename(sudo('echo \$SHELL', :as => var(:username), :su => true)) == 'fish' }
-  meet { sudo "chsh -s #{shell('which fish')} #{var(:username)}" }
+  requires 'dot files'
+#   met? { File.basename(sudo('echo \$SHELL', :as => var(:username), :su => true)) == 'fish' }
+#   meet { sudo "chsh -s #{shell('which fish')} #{var(:username)}" }
 end
 
 
@@ -71,36 +71,14 @@ dep 'dot files' do
   }
 end
 
-dep 'fish' do
-  requires 'fish default shell'
-end
-
-dep 'fish default shell' do
-  requires 'fish shell'
-  met? { shell("dscl . -read /Users/`whoami` UserShell").split(' ').last == which('fish') }
-  meet { shell "chsh -s #{which('fish')}" }
-end
-
-dep 'fish shell' do
-  requires 'fish installed'
-  met? { grep which('fish'), '/etc/shells' }
-  meet { append_to_file which('fish'), '/etc/shells', :sudo => true }
-end
-
-src 'fish installed' do
-  requires 'ncurses', 'coreutils'
-  source "git://github.com/benhoskings/fish.git"
-  provides 'fish'
-end
-
-pkg 'ncurses' do
+dep 'ncurses.managed' do
   installs {
     via :apt, 'libncurses5-dev', 'libncursesw5-dev'
     via :macports, 'ncurses', 'ncursesw'
   }
   provides []
 end
-pkg 'coreutils', :for => :osx do
+dep 'coreutils.managed', :for => :osx do
   provides 'gecho'
   after :on => :osx do
     in_dir pkg_manager.bin_path do

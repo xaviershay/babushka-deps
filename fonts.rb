@@ -14,4 +14,4 @@ meta :font do
   end
 end
 
-font('inconsolata') { source 'http://www.levien.com/type/myfonts/Inconsolata.otf' }
+dep('inconsolata.font') { source 'http://www.levien.com/type/myfonts/Inconsolata.otf' }
