@@ -15,11 +15,12 @@ end
 meta :pathogen do
   accepts_list_for :source
 
-  template do
-    helper(:path) {
-      "~/.vim/bundle" / name
-    }
+  def path
+    "~/.vim/bundle" / name
+  end
 
+
+  template do
     met? {
       path.dir?
 #       && in_dir(path) do
@@ -34,7 +35,7 @@ meta :pathogen do
     before { shell "mkdir -p #{path.parent}" }
     meet {
       source.each {|uri|
-        git uri, :dir => path
+        git uri, :to => path
       }
     }
   end
