@@ -47,6 +47,8 @@ vim_plugins = %w(
  tpope-vim-rails
  kchmck-vim-coffee-script
  shemerey-vim-peepopen
+ kana-vim-textobj-user
+ nelstrom-vim-textobj-rubyblock
 ).each do |name|
   dep("#{name}.pathogen") { 
     source("git://github.com/#{name.sub('-', '/')}.git")
