@@ -16,9 +16,9 @@ meta :pathogen do
   accepts_list_for :source
 
   template do
-    def path
+    helper(:path) {
       "~/.vim/bundle" / name
-    end
+    }
 
     met? {
       path.dir?
