@@ -15,12 +15,11 @@ end
 meta :pathogen do
   accepts_list_for :source
 
-  def path
-    "~/.vim/bundle" / name
-  end
-
-
   template do
+    def path
+      "~/.vim/bundle" / name
+    end
+
     met? {
       path.dir?
 #       && in_dir(path) do
