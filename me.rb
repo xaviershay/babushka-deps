@@ -22,6 +22,7 @@ dep 'the whole damn lot' do
     'documents copied',
     'pictures copied',
     'git repos cloned'
+    'codemod'
   )
 end
 
@@ -85,4 +86,16 @@ dep 'coreutils.managed', :for => :osx do
       sudo "ln -s gecho echo"
     end
   end
+end
+
+dep 'codemod' do
+  path = '~/bin/codemod'.p
+  url = 'https://github.com/pda/codemod/raw/master/src/codemod.py'
+  met? { path.executable? }
+  meet {
+    in_download_dir do
+      log_shell "Downloading codemod from #{url}", "wget --no-check-certificate #{url}"
+      shell "mv codemod.py #{path}; chmod 755 #{path}"
+    end
+  }
 end
