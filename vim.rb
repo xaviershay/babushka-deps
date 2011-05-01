@@ -48,6 +48,7 @@ vim_plugins = %w(
  shemerey-vim-peepopen
  kana-vim-textobj-user
  nelstrom-vim-textobj-rubyblock
+ sjbach-lusty
 ).each do |name|
   dep("#{name}.pathogen") { 
     source("git://github.com/#{name.sub('-', '/')}.git")
