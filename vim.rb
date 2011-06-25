@@ -16,9 +16,9 @@ meta :pathogen do
   accepts_list_for :source
 
   template do
-    helper(:path) {
+    def path
       "~/.vim/bundle" / name
-    }
+    end
 
     met? {
       path.dir?
@@ -44,13 +44,13 @@ vim_plugins = %w(
  tpope-vim-surround
  tpope-vim-haml
  tpope-vim-rails
+ tpope-vim-fugitive
  kchmck-vim-coffee-script
- shemerey-vim-peepopen
  kana-vim-textobj-user
  nelstrom-vim-textobj-rubyblock
  sjbach-lusty
 ).each do |name|
-  dep("#{name}.pathogen") { 
+  dep("#{name}.pathogen") {
     source("git://github.com/#{name.sub('-', '/')}.git")
   }
 end

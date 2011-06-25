@@ -21,7 +21,7 @@ dep 'the whole damn lot' do
     'music copied',
     'documents copied',
     'pictures copied',
-    'git repos cloned'
+    'git repos cloned',
     'codemod'
   )
 end
