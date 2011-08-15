@@ -49,6 +49,8 @@ vim_plugins = %w(
  kana-vim-textobj-user
  nelstrom-vim-textobj-rubyblock
  sjbach-lusty
+ mortice-pbcopy.vim
+ kikijump-tslime.vim
 ).each do |name|
   dep("#{name}.pathogen") {
     source("git://github.com/#{name.sub('-', '/')}.git")
