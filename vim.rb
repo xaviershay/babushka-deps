@@ -51,6 +51,7 @@ vim_plugins = %w(
  sjbach-lusty
  mortice-pbcopy.vim
  xaviershay-tslime.vim
+ altercation-vim-colors-solarized
 ).each do |name|
   dep("#{name}.pathogen") {
     source("git://github.com/#{name.sub('-', '/')}.git")
